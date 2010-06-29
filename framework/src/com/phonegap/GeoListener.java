@@ -1,6 +1,7 @@
 package com.phonegap;
 
 import android.content.Context;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.webkit.WebView;
@@ -20,12 +21,24 @@ public class GeoListener {
 	GeoListener(String i, Context ctx, int time, WebView appView)
 	{
 		id = i;
-		interval = time;
+		interval = 4000;//time;
 		mCtx = ctx;
 		mGps = null;
 		mNetwork = null;
 		mLocMan = (LocationManager) mCtx.getSystemService(Context.LOCATION_SERVICE);
 	
+		/* moo */
+		Criteria criteria = new Criteria();
+		criteria.setAccuracy(Criteria.ACCURACY_FINE);
+		criteria.setAltitudeRequired(false);
+		criteria.setBearingRequired(false);
+		criteria.setCostAllowed(true);
+		criteria.setPowerRequirement(Criteria.POWER_LOW);
+
+		String provider = mLocMan.getBestProvider(criteria, true);
+				
+		/* oom */
+		
 		if (mLocMan.getProvider(LocationManager.GPS_PROVIDER) != null)
 			mGps = new GpsListener(mCtx, interval, this);
 		if (mLocMan.getProvider(LocationManager.NETWORK_PROVIDER) != null)

@@ -13,7 +13,7 @@ import android.webkit.WebView;
  */
 
 public class GeoBroker {
-    private WebView mAppView;
+  private WebView mAppView;
 	private Context mCtx;
 	private HashMap<String, GeoListener> geoListeners;
 	

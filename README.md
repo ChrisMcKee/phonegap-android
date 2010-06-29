@@ -1,5 +1,18 @@
-PhoneGap/Android
+PhoneGap/Android - _Modified_
 ================
+[cm] Changes ---------------
+<pre>
+* New GPS handler added; Old one left in (in case they fix it).
+* On GPS Location Change myLocation(lat,lng) is called (example in example/index.html)
+* Two new functions locator.getLatitude() locator.getLongitude() get last known location
+
+
+** Depreciated: PhoneGap GEO as it doesnt currently work. 
+** If they fix it, this fork becomes useless(ish)
+</pre>
+-----------------------------
+
+
 PhoneGap/Android is an Android application library that allows for PhoneGap based projects to be built for the Android Platform. PhoneGap based applications are, at the core, an application written with web technology: HTML, CSS and JavaScript. 
 
 Pre-requisites
