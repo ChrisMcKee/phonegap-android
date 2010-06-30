@@ -9,16 +9,16 @@ function Media(src, successCallback, errorCallback) {
 }
 
 Media.prototype.record = function() {
-}
+};
 
 Media.prototype.play = function() {
-}
+};
 
 Media.prototype.pause = function() {
-}
+};
 
 Media.prototype.stop = function() {
-}
+};
 
 
 /**
@@ -45,18 +45,18 @@ MediaError.MEDIA_ERR_NONE_SUPPORTED = 4;
 
 Media.prototype.play = function() {
   GapAudio.startPlayingAudio(this.src);  
-}
+};
 
 Media.prototype.stop = function() {
   GapAudio.stopPlayingAudio();
-}
+};
 
 Media.prototype.startRecord = function() {
   GapAudio.startRecordingAudio(this.src);
-}
+};
 
 Media.prototype.stopRecordingAudio = function() {
   GapAudio.stopRecordingAudio();
-}
+};
 
 

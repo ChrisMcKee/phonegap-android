@@ -1,9 +1,6 @@
 package com.phonegap;
 
 import java.io.File;
-
-import com.phonegap.MyLocation.LocationResult;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
@@ -15,10 +12,10 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.ViewGroup;
@@ -32,8 +29,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.webkit.WebSettings.LayoutAlgorithm;
 import android.widget.LinearLayout;
-import android.os.Build.*;
-import android.provider.MediaStore;
+import com.phonegap.MyLocation.LocationResult;
 
 public class DroidGap extends Activity {
 
@@ -42,7 +38,6 @@ public class DroidGap extends Activity {
 	private LinearLayout root;
 
 	private Device gap;
-	private GeoBroker geo;
 	private AccelBroker accel;
 	private CameraLauncher launcher;
 	private ContactManager mContacts;
@@ -52,18 +47,14 @@ public class DroidGap extends Activity {
 	private Storage cupcakeStorage;
 	private CryptoHandler crypto;
 	private BrowserKey mKey;
-	private AudioHandler audio;
+	private AudioHandler audio;	
+	private Uri imageUri;
 	
 	//EXPERIMENTAL
 	private MyLocation myLocation = new MyLocation();
-	private Location logRes = null;
-
-	// MYGPS Implementation // [cm]
-	private static String PROVIDER = "gps";// [cm]
-	private LocationManager myLocationManager = null;// [cm]
-	//
-
-	private Uri imageUri;
+	protected Location logRes;
+	
+	
 
 	/** Called when the activity is first created. */
 	@Override
@@ -121,7 +112,7 @@ public class DroidGap extends Activity {
 		// Turn on DOM storage!
 		WebViewReflect.setDomStorage(settings);
 		// Turn off native geolocation object in browser - we use our own :)
-		WebViewReflect.setGeolocationEnabled(settings, false);
+		//WebViewReflect.setGeolocationEnabled(settings, false);
 		/* Bind the appView object to the gap class methods */
 		bindBrowser(appView);
 		if (cupcakeStorage != null)
@@ -132,38 +123,41 @@ public class DroidGap extends Activity {
 		setContentView(root);
 	}
 	
-	/* Experimental */	
+	
+	@Override  // [cm]
+	public void onResume() {
+		super.onResume();
+		try{
+			myLocation.getLocation(this, locationResult);
+		}
+		catch (Exception e) {
+			ErrorPie(e.getMessage().toString());
+		}
+	}
+
+	@Override // [cm]
+	public void onPause() {
+		super.onPause();
+		logRes = null;
+		//myLocation.lm.removeUpdates(onLocationChange);
+	}
+	
 	public LocationResult locationResult = new LocationResult(){
 	    @Override
 	    public void gotLocation(final Location location){
 	        logRes = location;
         };
     };
-    /* end Experimental */
-   
 
-	@Override  // [cm]
-	public void onResume() {
-		super.onResume();
-		myLocationManager.requestLocationUpdates(PROVIDER, 0, 0,
-				onLocationChange);
-	}
-
-	@Override // [cm]
-	public void onPause() {
-		super.onPause();
-		myLocationManager.removeUpdates(onLocationChange);
-	}
-
+	
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		// don't reload the current page when the orientation is changed
 		super.onConfigurationChanged(newConfig);
 	}
-
+	
 	private void bindBrowser(WebView appView) {
 		gap = new Device(appView, this);
-		geo = new GeoBroker(appView, this);
 		accel = new AccelBroker(appView, this);
 		launcher = new CameraLauncher(appView, this);
 		mContacts = new ContactManager(appView, this);
@@ -177,7 +171,6 @@ public class DroidGap extends Activity {
 		appView.getSettings().setJavaScriptEnabled(true);
 		// This creates the new javascript interfaces for PhoneGap
 		appView.addJavascriptInterface(gap, "DroidGap");
-		appView.addJavascriptInterface(geo, "Geo");
 		appView.addJavascriptInterface(accel, "Accel");
 		appView.addJavascriptInterface(launcher, "GapCam");
 		appView.addJavascriptInterface(mContacts, "ContactHook");
@@ -189,14 +182,14 @@ public class DroidGap extends Activity {
 		appView.addJavascriptInterface(audio, "GapAudio");
 		
 		//Experimental
-		appView.addJavascriptInterface(new ExLocater(), "exlocater");
+		appView.addJavascriptInterface(new GPSLocator(), "locater");
 			myLocation.getLocation(this, locationResult);
 		//
 
 		// Set Location Manager [cm]
-		myLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		//myLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		// Create Custom GPS Handler so we can depreciate the other [cm]
-		appView.addJavascriptInterface(new Locater(), "locater");
+		//appView.addJavascriptInterface(new Locater(), "locater");
 		
 		
 
@@ -208,9 +201,10 @@ public class DroidGap extends Activity {
 	
 	/* EXPERIMENTAL #logRes*/
 	//Access this using loc.getLatitude() and loc.getLongitude() [cm]
-	public class ExLocater {
+	public class GPSLocator {
+		
+		///Geo Accessors
 		public double getLatitude() {
-			//Location loc = myLocationManager.getLastKnownLocation(PROVIDER);
 			
 			if (logRes == null) {
 				return (0);
@@ -218,25 +212,47 @@ public class DroidGap extends Activity {
 
 			return (logRes.getLatitude());
 		}
-		
-//		public double getAccuracy()
-//		{
-//			if(logRes == null)
-//			{
-//				return(0);
-//			}
-//			
-//			return (logRes.getAccuracy());
-//		}
 
 		public double getLongitude() {
-			//Location loc = myLocationManager.getLastKnownLocation(PROVIDER);
 
 			if (logRes == null) {
 				return (0);
 			}
 			
 			return (logRes.getLongitude());
+		}
+		
+		///Geo Methods		
+		
+		public void forceUpdate(){
+			logRes = null;
+			myLocation.getLocation(getBaseContext(), locationResult);
+		}
+		
+		// Use Accessors
+		public void setDistanceInterval(int interval)
+		{
+			float tmp = interval;
+			myLocation.setDistanceInterval(tmp);
+		}
+		public void setTimeInterval(int interval)
+		{
+			long tmp = interval;
+			myLocation.setTimeInterval(tmp);
+		}
+	
+		
+		///LocationManager Start/Stop
+		public void resumeUpdates(){
+			myLocation.setStopAfterResult(false);
+		}
+		public void stopUpdates(){
+			myLocation.setStopAfterResult(true);
+		}
+		
+		//Get Lon/Lat Version
+		public String getGeoVersion(){
+			return "1.0.0.d";
 		}
 	}
 	
@@ -245,7 +261,6 @@ public class DroidGap extends Activity {
 	public void loadUrl(String url) {
 		appView.loadUrl(url);
 	}
-
 	public class GapViewClient extends WebViewClient {
 
 		Context mCtx;
@@ -295,7 +310,6 @@ public class DroidGap extends Activity {
 			}
 		}
 	}
-
 	/**
 	 * Provides a hook for calling "alert" from javascript. Useful for debugging
 	 * your javascript.
@@ -349,7 +363,6 @@ public class DroidGap extends Activity {
 		}
 
 	}
-
 	public final class EclairClient extends GapClient {
 		private String TAG = "PhoneGapLog";
 		private long MAX_QUOTA = 100 * 1024 * 1024;
@@ -391,7 +404,6 @@ public class DroidGap extends Activity {
 		}
 
 	}
-
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -425,7 +437,6 @@ public class DroidGap extends Activity {
 		imageUri = Uri.fromFile(photo);
 		startActivityForResult(intent, 0);
 	}
-
 	protected void onActivityResult(int requestCode, int resultCode,
 			Intent intent) {
 		super.onActivityResult(requestCode, resultCode, intent);
@@ -450,12 +461,16 @@ public class DroidGap extends Activity {
 	public WebView getView() {
 		return this.appView;
 	}
-
+   
+    
 	// Location Change Watcher [cm]
 	// This event fires a JS request for a myLocation(arg1,arg2) function
 	// which needs to be handled on the client side JS of the android application
+
 	LocationListener onLocationChange = new LocationListener() {
 		public void onLocationChanged(Location location) {
+			
+			//logRes = location;		
 			StringBuilder buf = new StringBuilder("javascript:myLocation(");
 
 			buf.append(String.valueOf(location.getLatitude()));
@@ -464,8 +479,9 @@ public class DroidGap extends Activity {
 			buf.append(")");
 
 			appView.loadUrl(buf.toString());
+			
 		}
-
+			
 		public void onProviderDisabled(String provider) {
 			// required for interface, not used
 		}
@@ -479,27 +495,15 @@ public class DroidGap extends Activity {
 		}
 	};
 	
-	//Access this using loc.getLatitude() and loc.getLongitude() [cm]
-	public class Locater {
-		public double getLatitude() {
-			Location loc = myLocationManager.getLastKnownLocation(PROVIDER);
+	public void ErrorPie(String error)
+	{
+		StringBuilder buf = new StringBuilder("javascript:alert(");
 
-			if (loc == null) {
-				return (0);
-			}
+		buf.append(error);
+		buf.append(")");
 
-			return (loc.getLatitude());
-		}
-
-		public double getLongitude() {
-			Location loc = myLocationManager.getLastKnownLocation(PROVIDER);
-
-			if (loc == null) {
-				return (0);
-			}
-
-			return (loc.getLongitude());
-		}
+		appView.loadUrl(buf.toString());
 	}
-
+	
+	
 }

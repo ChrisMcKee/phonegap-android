@@ -43,7 +43,7 @@ Accelerometer.prototype.getCurrentAcceleration = function(successCallback, error
 			watchAcceleration(this.gotCurrentAcceleration, this.fail);
 		}
 	}
-}
+};
 
 
 Accelerometer.prototype.gotAccel = function(key, x, y, z)
@@ -61,7 +61,7 @@ Accelerometer.prototype.gotAccel = function(key, x, y, z)
     if (typeof a.win == "function") {
       a.win(a);
     }
-}
+};
 
 
 /**
@@ -83,7 +83,7 @@ Accelerometer.prototype.watchAcceleration = function(successCallback, errorCallb
   accel.opts = options;
   var key = accelListeners.push( accel ) - 1;
   Accel.start(frequency, key);
-}
+};
 
 /**
  * Clears the specified accelerometer watch.
@@ -91,11 +91,11 @@ Accelerometer.prototype.watchAcceleration = function(successCallback, errorCallb
  */
 Accelerometer.prototype.clearWatch = function(watchId) {
 	Accel.stop(watchId);
-}
+};
 
 Accelerometer.prototype.epicFail = function(watchId, message) {
   accelWatcher[key].fail();
-}
+};
 
 PhoneGap.addConstructor(function() {
     if (typeof navigator.accelerometer == "undefined") navigator.accelerometer = new Accelerometer();

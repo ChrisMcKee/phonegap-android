@@ -14,6 +14,7 @@ public class CryptoHandler {
 	public void encrypt(String pass, String text)
 	{
 		try {
+			@SuppressWarnings("unused")
 			String encrypted = SimpleCrypto.encrypt(pass,text);
 			mView.loadUrl("javascript:Crypto.gotCryptedString('" + text + "')");
 		} catch (Exception e) {
@@ -26,6 +27,7 @@ public class CryptoHandler {
 	public void decrypt(String pass, String text)
 	{
 		try {
+			@SuppressWarnings("unused")
 			String decrypted = SimpleCrypto.decrypt(pass,text);
 			mView.loadUrl("javascript:Crypto.gotPlainString('" + text + "')");
 		} catch (Exception e) {

@@ -24,17 +24,17 @@ Camera.prototype.getPicture = function(successCallback, errorCallback, options) 
   {
     GapCam.takePicture(80);
   }
-}
+};
 
 Camera.prototype.win = function(picture)
 {
   this.winCallback(picture);
-}
+};
 
 Camera.prototype.fail = function(err)
 {
   this.failCallback(err);
-}
+};
 
 PhoneGap.addConstructor(function() {
     if (typeof navigator.camera == "undefined") navigator.camera = new Camera();

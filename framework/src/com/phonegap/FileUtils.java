@@ -1,9 +1,7 @@
 package com.phonegap;
 
 import java.io.*;
-
 import android.webkit.WebView;
-
 public class FileUtils {
 
 
@@ -82,7 +80,8 @@ public class FileUtils {
     public String read(String filename)
     {
     	String data = "";
-    	String output = "";
+    	@SuppressWarnings("unused")
+		String output = "";
     	try {
     		FileInputStream fstream = new FileInputStream(filename);
 			DataInputStream in = new DataInputStream(fstream);

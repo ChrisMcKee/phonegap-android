@@ -18,7 +18,7 @@ Geolocation.prototype.getCurrentPosition = function(successCallback, errorCallba
   var position = Geo.getCurrentLocation();
   this.global_success = successCallback;
   this.fail = errorCallback;
-}
+};
 
 // Run the global callback
 Geolocation.prototype.gotCurrentPosition = function(lat, lng, alt, altacc, head, vel, stamp)
@@ -34,7 +34,7 @@ Geolocation.prototype.gotCurrentPosition = function(lat, lng, alt, altacc, head,
 	this.lastPosition = loc;
     this.global_success(loc);
   }
-}
+};
 
 /*
 * This turns on the GeoLocator class, which has two listeners.
@@ -50,7 +50,7 @@ Geolocation.prototype.watchPosition = function(successCallback, errorCallback, o
  
   // TO-DO: Get the names of the method and pass them as strings to the Java.
   return Geo.start(frequency, key);
-}
+};
  
 /*
  * Retrieve and stop this listener from listening to the GPS
@@ -61,17 +61,17 @@ Geolocation.prototype.success = function(key, lat, lng, alt, altacc, head, vel, 
   var coords = new Coordinates(lat, lng, alt, altacc, head, vel);
   var loc = new Position(coords, stamp);
   geoListeners[key].success(loc);
-}
+};
 
 Geolocation.prototype.fail = function(key)
 {
   geoListeners[key].fail();
-}
+};
  
 Geolocation.prototype.clearWatch = function(watchId)
 {
   Geo.stop(watchId);
-}
+};
 
 PhoneGap.addConstructor(function() {
 	// Taken from Jesse's geo fix (similar problem) in PhoneGap iPhone. Go figure, same browser!

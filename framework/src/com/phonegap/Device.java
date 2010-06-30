@@ -35,6 +35,7 @@ import android.media.RingtoneManager;
 
 public class Device{
 	
+	@SuppressWarnings("unused")
 	private static final String LOG_TAG = "PhoneGap";
 	/*
 	 * UUID, version and availability	
@@ -44,7 +45,8 @@ public class Device{
 	public static String platform = "Android";
 	public static String uuid;
 	private Context mCtx;
-    private WebView mAppView;
+    @SuppressWarnings("unused")
+	private WebView mAppView;
     AudioPlayer audio; 
     
 	public Device(WebView appView, Context ctx) {
@@ -73,7 +75,7 @@ public class Device{
 	
 	public String getPlatform()
 	{
-		return this.platform;
+		return Device.platform;
 	}
 	
 	public String getUuid()

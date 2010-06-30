@@ -12,7 +12,16 @@ import android.webkit.WebView;
  * This class only starts and stops various GeoListeners, which consist of a GPS and a Network Listener
  */
 
-public class GeoBroker {
+
+/**
+ * Killed off
+ *
+ * @deprecated  Doesn't Work in Android 1.5/6 as of PhoneGap 0.9.1
+ *    Use methods from MyLocation class instead
+ *    
+ *    {@link #GeoBroker} and {@link #MyLocation}
+ */
+@Deprecated public class GeoBroker {
   private WebView mAppView;
 	private Context mCtx;
 	private HashMap<String, GeoListener> geoListeners;
@@ -43,6 +52,7 @@ public class GeoBroker {
 	
 	public void stop(String key)
 	{
+		@SuppressWarnings("unused")
 		GeoListener geo = geoListeners.get(key);
 	}
 }

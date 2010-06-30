@@ -6,7 +6,16 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.webkit.WebView;
 
-public class GeoListener {
+/**
+ * Killed off
+ *
+ * @deprecated  Doesn't Work in Android 1.5/6 as of PhoneGap 0.9.1
+ *    Use methods from MyLocation class instead
+ *    
+ *    {@link #GeoListener} and {@link #MyLocation}
+ */
+@SuppressWarnings("unused")
+@Deprecated public class GeoListener {
 	String id;
 	String successCallback;
 	String failCallback;

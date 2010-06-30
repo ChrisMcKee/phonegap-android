@@ -1,15 +1,9 @@
 package com.phonegap;
 
-import android.app.Activity;
 import android.util.Log;
 import android.webkit.WebView;
 
-/*
- * This class literally exists to protect DroidGap from Javascript directly.
- * 
- * 
- */
-
+// This class literally exists to protect DroidGap from JavaScript directly.
 
 public class BrowserKey {
 

@@ -178,7 +178,7 @@ Accelerometer.prototype.getCurrentAcceleration = function(successCallback, error
 			watchAcceleration(this.gotCurrentAcceleration, this.fail);
 		}
 	}
-}
+};
 
 
 Accelerometer.prototype.gotAccel = function(key, x, y, z)
@@ -196,7 +196,7 @@ Accelerometer.prototype.gotAccel = function(key, x, y, z)
     if (typeof a.win == "function") {
       a.win(a);
     }
-}
+};
 
 
 /**
@@ -218,7 +218,7 @@ Accelerometer.prototype.watchAcceleration = function(successCallback, errorCallb
   accel.opts = options;
   var key = accelListeners.push( accel ) - 1;
   Accel.start(frequency, key);
-}
+};
 
 /**
  * Clears the specified accelerometer watch.
@@ -226,11 +226,11 @@ Accelerometer.prototype.watchAcceleration = function(successCallback, errorCallb
  */
 Accelerometer.prototype.clearWatch = function(watchId) {
 	Accel.stop(watchId);
-}
+};
 
 Accelerometer.prototype.epicFail = function(watchId, message) {
   accelWatcher[key].fail();
-}
+};
 
 PhoneGap.addConstructor(function() {
     if (typeof navigator.accelerometer == "undefined") navigator.accelerometer = new Accelerometer();
@@ -261,17 +261,17 @@ Camera.prototype.getPicture = function(successCallback, errorCallback, options) 
   {
     GapCam.takePicture(80);
   }
-}
+};
 
 Camera.prototype.win = function(picture)
 {
   this.winCallback(picture);
-}
+};
 
 Camera.prototype.fail = function(err)
 {
   this.failCallback(err);
-}
+};
 
 PhoneGap.addConstructor(function() {
     if (typeof navigator.camera == "undefined") navigator.camera = new Camera();
@@ -376,7 +376,7 @@ var Contact = function(){
   this.name = new ContactName();
   this.emails = [];
   this.phones = [];
-}
+};
 
 var ContactName = function()
 {
@@ -386,26 +386,26 @@ var ContactName = function()
   this.additionalNames = [];
   this.prefixes = [];
   this.suffixes = [];
-}
+};
 
 
 var ContactEmail = function()
 {
   this.types = [];
   this.address = "";
-}
+};
 
 var ContactPhoneNumber = function()
 {
   this.types = [];
   this.number = "";
-}
+};
 
 
 var Contacts = function()
 {
   this.records = [];  
-}
+};
 
 Contacts.prototype.find = function(obj, win, fail)
 {
@@ -426,7 +426,7 @@ Contacts.prototype.find = function(obj, win, fail)
   }
   this.win = win;
   this.fail = fail;
-}
+};
 
 Contacts.prototype.droidFoundContact = function(name, npa, email)
 {
@@ -443,41 +443,41 @@ Contacts.prototype.droidFoundContact = function(name, npa, email)
   phone.number = npa;
   contact.phones.push(phone);
   this.records.push(contact);
-}
+};
 
 Contacts.prototype.droidDone = function()
 {
   this.win(this.records);
-}
+};
 
 PhoneGap.addConstructor(function() {
   if(typeof navigator.contacts == "undefined") navigator.contacts = new Contacts();
 });
 var Crypto = function()
 {
-}
+};
 
 Crypto.prototype.encrypt = function(seed, string, callback)
 {
 	GapCrypto.encrypt(seed, string);
 	this.encryptWin = callback;
-}
+};
 
 Crypto.prototype.decrypt = function(seed, string, callback)
 {
 	GapCrypto.decrypt(seed, string);
 	this.decryptWin = callback;
-}
+};
 
 Crypto.prototype.gotCryptedString = function(string)
 {
 	this.encryptWin(string);
-}
+};
 
 Crypto.prototype.getPlainString = function(string)
 {
 	this.decryptWin(string);
-}
+};
 
 PhoneGap.addConstructor(function() {
   if (typeof navigator.Crypto == "undefined")
@@ -523,7 +523,7 @@ function Device() {
 Device.prototype.overrideBackButton = function()
 {
   BackButton.override();
-}
+};
 
 /*
  * This resets the back button to the default behaviour
@@ -532,7 +532,7 @@ Device.prototype.overrideBackButton = function()
 Device.prototype.resetBackButton = function()
 {
   BackButton.reset();
-}
+};
 
 /*
  * This terminates the activity!
@@ -540,7 +540,7 @@ Device.prototype.resetBackButton = function()
 Device.prototype.exitApp = function()
 {
   BackButton.exitApp();
-}
+};
 
 PhoneGap.addConstructor(function() {
     navigator.device = window.device = new Device();
@@ -571,13 +571,13 @@ FileMgr.prototype._setPaths = function(docs,temp)
 {
 	this.docsFolderPath = docs;
 	this.tempFolderPath = temp;
-}
+};
 
 // private, called from Native Code
 FileMgr.prototype._setFreeDiskSpace = function(val)
 {
 	this.freeDiskSpace = val;
-}
+};
 
 
 // FileWriters add/remove
@@ -585,24 +585,24 @@ FileMgr.prototype._setFreeDiskSpace = function(val)
 FileMgr.prototype.addFileWriter = function(filePath,fileWriter)
 {
 	this.fileWriters[filePath] = fileWriter;
-}
+};
 
 FileMgr.prototype.removeFileWriter = function(filePath)
 {
 	this.fileWriters[filePath] = null;
-}
+};
 
 // File readers add/remove
 // called internally by readers
 FileMgr.prototype.addFileReader = function(filePath,fileReader)
 {
 	this.fileReaders[filePath] = fileReader;
-}
+};
 
 FileMgr.prototype.removeFileReader = function(filePath)
 {
 	this.fileReaders[filePath] = null;
-}
+};
 
 /*******************************************
  *
@@ -612,29 +612,29 @@ FileMgr.prototype.removeFileReader = function(filePath)
 FileMgr.prototype.reader_onloadstart = function(filePath,result)
 {
 	this.fileReaders[filePath].onloadstart(result);
-}
+};
 
 FileMgr.prototype.reader_onprogress = function(filePath,result)
 {
 	this.fileReaders[filePath].onprogress(result);
-}
+};
 
 FileMgr.prototype.reader_onload = function(filePath,result)
 {
 	this.fileReaders[filePath].result = unescape(result);
 	this.fileReaders[filePath].onload(this.fileReaders[filePath].result);
-}
+};
 
 FileMgr.prototype.reader_onerror = function(filePath,err)
 {
 	this.fileReaders[filePath].result = err;
 	this.fileReaders[filePath].onerror(err);
-}
+};
 
 FileMgr.prototype.reader_onloadend = function(filePath,result)
 {
 	this.fileReaders[filePath].onloadend(result);
-}
+};
 
 /*******************************************
  *
@@ -644,24 +644,24 @@ FileMgr.prototype.reader_onloadend = function(filePath,result)
 FileMgr.prototype.writer_onerror = function(filePath,err)
 {
 	this.fileWriters[filePath].onerror(err);
-}
+};
 
 FileMgr.prototype.writer_oncomplete = function(filePath,result)
 {
 	this.fileWriters[filePath].oncomplete(result); // result contains bytes written
-}
+};
 
 
 FileMgr.prototype.getFileBasePaths = function()
 {
 	//PhoneGap.exec("File.getFileBasePaths");
-}
+};
 
 FileMgr.prototype.testFileExists = function(fileName, successCallback, errorCallback)
 {
 	var test = FileUtil.testFileExists(fileName);
 	test ? successCallback() : errorCallback();
-}
+};
 
 FileMgr.prototype.testDirectoryExists = function(dirName, successCallback, errorCallback)
 {
@@ -669,7 +669,7 @@ FileMgr.prototype.testDirectoryExists = function(dirName, successCallback, error
 	this.errorCallback = errorCallback;
 	var test = FileUtil.testDirectoryExists(dirName);
 	test ? successCallback() : errorCallback();
-}
+};
 
 FileMgr.prototype.createDirectory = function(dirName, successCallback, errorCallback)
 {
@@ -677,7 +677,7 @@ FileMgr.prototype.createDirectory = function(dirName, successCallback, errorCall
 	this.errorCallback = errorCallback;
 	var test = FileUtils.createDirectory(dirName);
 	test ? successCallback() : errorCallback();
-}
+};
 
 FileMgr.prototype.deleteDirectory = function(dirName, successCallback, errorCallback)
 {
@@ -685,7 +685,7 @@ FileMgr.prototype.deleteDirectory = function(dirName, successCallback, errorCall
 	this.errorCallback = errorCallback;
 	var test = FileUtils.deleteDirectory(dirName);
 	test ? successCallback() : errorCallback();
-}
+};
 
 FileMgr.prototype.deleteFile = function(fileName, successCallback, errorCallback)
 {
@@ -693,7 +693,7 @@ FileMgr.prototype.deleteFile = function(fileName, successCallback, errorCallback
 	this.errorCallback = errorCallback;
 	FileUtils.deleteFile(fileName);
 	test ? successCallback() : errorCallback();
-}
+};
 
 FileMgr.prototype.getFreeDiskSpace = function(successCallback, errorCallback)
 {
@@ -708,7 +708,7 @@ FileMgr.prototype.getFreeDiskSpace = function(successCallback, errorCallback)
 		this.freeDiskSpace = FileUtils.getFreeDiskSpace();
   		(this.freeDiskSpace > 0) ? successCallback() : errorCallback();
 	}
-}
+};
 
 
 // File Reader
@@ -729,7 +729,7 @@ function FileReader()
 FileReader.prototype.abort = function()
 {
 	// Not Implemented
-}
+};
 
 FileReader.prototype.readAsText = function(file)
 {
@@ -741,7 +741,7 @@ FileReader.prototype.readAsText = function(file)
 	navigator.fileMgr.addFileReader(this.fileName,this);
 
   	return FileUtil.read(this.fileName);
-}
+};
 
 // File Writer
 
@@ -770,7 +770,7 @@ FileWriter.prototype.writeAsText = function(file,text,bAppend)
 	this.readyState = 0; // EMPTY
   	var call = FileUtil.write(file, text, bAppend);
 	this.result = null;
-}
+};
 /**
  * This class provides access to device GPS data.
  * @constructor
@@ -791,7 +791,7 @@ Geolocation.prototype.getCurrentPosition = function(successCallback, errorCallba
   var position = Geo.getCurrentLocation();
   this.global_success = successCallback;
   this.fail = errorCallback;
-}
+};
 
 // Run the global callback
 Geolocation.prototype.gotCurrentPosition = function(lat, lng, alt, altacc, head, vel, stamp)
@@ -807,7 +807,7 @@ Geolocation.prototype.gotCurrentPosition = function(lat, lng, alt, altacc, head,
 	this.lastPosition = loc;
     this.global_success(loc);
   }
-}
+};
 
 /*
 * This turns on the GeoLocator class, which has two listeners.
@@ -823,7 +823,7 @@ Geolocation.prototype.watchPosition = function(successCallback, errorCallback, o
  
   // TO-DO: Get the names of the method and pass them as strings to the Java.
   return Geo.start(frequency, key);
-}
+};
  
 /*
  * Retrieve and stop this listener from listening to the GPS
@@ -834,17 +834,17 @@ Geolocation.prototype.success = function(key, lat, lng, alt, altacc, head, vel, 
   var coords = new Coordinates(lat, lng, alt, altacc, head, vel);
   var loc = new Position(coords, stamp);
   geoListeners[key].success(loc);
-}
+};
 
 Geolocation.prototype.fail = function(key)
 {
   geoListeners[key].fail();
-}
+};
  
 Geolocation.prototype.clearWatch = function(watchId)
 {
   Geo.stop(watchId);
-}
+};
 
 PhoneGap.addConstructor(function() {
 	// Taken from Jesse's geo fix (similar problem) in PhoneGap iPhone. Go figure, same browser!
@@ -869,7 +869,7 @@ KeyEvent.prototype.backTrigger = function()
   var e = document.createEvent('Events');
   e.initEvent('backKeyDown');
   document.dispatchEvent(e);
-}
+};
 
 if (document.keyEvent == null || typeof document.keyEvent == 'undefined')
 {
@@ -886,16 +886,16 @@ function Media(src, successCallback, errorCallback) {
 }
 
 Media.prototype.record = function() {
-}
+};
 
 Media.prototype.play = function() {
-}
+};
 
 Media.prototype.pause = function() {
-}
+};
 
 Media.prototype.stop = function() {
-}
+};
 
 
 /**
@@ -922,19 +922,19 @@ MediaError.MEDIA_ERR_NONE_SUPPORTED = 4;
 
 Media.prototype.play = function() {
   GapAudio.startPlayingAudio(this.src);  
-}
+};
 
 Media.prototype.stop = function() {
   GapAudio.stopPlayingAudio();
-}
+};
 
 Media.prototype.startRecord = function() {
   GapAudio.startRecordingAudio(this.src);
-}
+};
 
 Media.prototype.stopRecordingAudio = function() {
   GapAudio.stopRecordingAudio();
-}
+};
 
 
 /**
@@ -1055,7 +1055,7 @@ PhoneGap.addConstructor(function() {
 Notification.prototype.vibrate = function(mills)
 {
   DroidGap.vibrate(mills);
-}
+};
 
 /*
  * On the Android, we don't beep, we notify you with your 
@@ -1066,7 +1066,7 @@ Notification.prototype.vibrate = function(mills)
 Notification.prototype.beep = function(count, volume)
 {
   DroidGap.beep(count);
-}
+};
 /**
  * This class contains position information.
  * @param {Object} lat
@@ -1148,14 +1148,14 @@ PositionError.TIMEOUT = 3;
 var DroidDB = function()
 {
   this.txQueue = [];
-}
+};
 
 DroidDB.prototype.addResult = function(rawdata, tx_id)
 {
   eval("var data = " + rawdata);
   var tx = this.txQueue[tx_id];
   tx.resultSet.push(data);
-}
+};
 
 DroidDB.prototype.completeQuery = function(tx_id)
 {
@@ -1164,61 +1164,61 @@ DroidDB.prototype.completeQuery = function(tx_id)
   r.rows.resultSet = tx.resultSet;
   r.rows.length = tx.resultSet.length;
   tx.win(r);
-}
+};
 
 DroidDB.prototype.fail = function(reason, tx_id)
 {
   var tx = this.txQueue[tx_id];
   tx.fail(reason);
-}
+};
 
 var DatabaseShell = function()
 {
   
-}
+};
 
 DatabaseShell.prototype.transaction = function(process)
 {
   tx = new Tx();
   process(tx);
-}
+};
 
 var Tx = function()
 {
   droiddb.txQueue.push(this);
   this.id = droiddb.txQueue.length - 1;
   this.resultSet = [];
-}
+};
 
 Tx.prototype.executeSql = function(query, params, win, fail)
 {
   droidStorage.executeSql(query, params, this.id);
   tx.win = win;
   tx.fail = fail;
-}
+};
 
 var result = function()
 {
   this.rows = new Rows();
-}
+};
 
 var Rows = function()
 {
   this.resultSet = [];
   this.length = 0;
-}
+};
 
 Rows.prototype.item = function(row_id)
 {
   return this.resultSet[id];
-}
+};
 
 var dbSetup = function(name, version, display_name, size)
 {
-    droidStorage.openDatabase(name, version, display_name, size)
+    droidStorage.openDatabase(name, version, display_name, size);
     db_object = new DatabaseShell();
     return db_object;
-}
+};
 
 PhoneGap.addConstructor(function() {
   if (typeof window.openDatabase == "undefined") 

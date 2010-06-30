@@ -35,7 +35,7 @@ function Device() {
 Device.prototype.overrideBackButton = function()
 {
   BackButton.override();
-}
+};
 
 /*
  * This resets the back button to the default behaviour
@@ -44,7 +44,7 @@ Device.prototype.overrideBackButton = function()
 Device.prototype.resetBackButton = function()
 {
   BackButton.reset();
-}
+};
 
 /*
  * This terminates the activity!
@@ -52,7 +52,7 @@ Device.prototype.resetBackButton = function()
 Device.prototype.exitApp = function()
 {
   BackButton.exitApp();
-}
+};
 
 PhoneGap.addConstructor(function() {
     navigator.device = window.device = new Device();

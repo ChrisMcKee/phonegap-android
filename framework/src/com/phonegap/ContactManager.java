@@ -1,11 +1,12 @@
 package com.phonegap;
+//Licence as in DroidGap.java
 
 import android.provider.Contacts.ContactMethods;
+
 import android.provider.Contacts.People;
 import android.util.Log;
 import android.webkit.WebView;
 import android.app.Activity;
-import android.content.ContentResolver;
 import android.net.Uri;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
@@ -23,6 +24,7 @@ public class ContactManager {
 	private static final String LOG_TAG = "Contact Query";
 	Activity mApp;
 	WebView mView;
+		
 	Uri mPeople = android.provider.Contacts.People.CONTENT_URI;
 	Uri mPhone = android.provider.Contacts.Phones.CONTENT_URI;	
 	Uri mEmail = android.provider.Contacts.ContactMethods.CONTENT_URI;

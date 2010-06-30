@@ -17,7 +17,8 @@ public class WebViewReflect {
 		   checkCompatibility();
 	   }
 	   
-	   private static void setDatabaseEnabled(boolean e) throws IOException {
+	@SuppressWarnings("unused")
+	private static void setDatabaseEnabled(boolean e) throws IOException {
 		   try
 		   {
 			   mWebSettings_setDatabaseEnabled.invoke(e);

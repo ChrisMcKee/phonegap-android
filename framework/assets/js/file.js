@@ -24,13 +24,13 @@ FileMgr.prototype._setPaths = function(docs,temp)
 {
 	this.docsFolderPath = docs;
 	this.tempFolderPath = temp;
-}
+};
 
 // private, called from Native Code
 FileMgr.prototype._setFreeDiskSpace = function(val)
 {
 	this.freeDiskSpace = val;
-}
+};
 
 
 // FileWriters add/remove
@@ -38,24 +38,24 @@ FileMgr.prototype._setFreeDiskSpace = function(val)
 FileMgr.prototype.addFileWriter = function(filePath,fileWriter)
 {
 	this.fileWriters[filePath] = fileWriter;
-}
+};
 
 FileMgr.prototype.removeFileWriter = function(filePath)
 {
 	this.fileWriters[filePath] = null;
-}
+};
 
 // File readers add/remove
 // called internally by readers
 FileMgr.prototype.addFileReader = function(filePath,fileReader)
 {
 	this.fileReaders[filePath] = fileReader;
-}
+};
 
 FileMgr.prototype.removeFileReader = function(filePath)
 {
 	this.fileReaders[filePath] = null;
-}
+};
 
 /*******************************************
  *
@@ -65,29 +65,29 @@ FileMgr.prototype.removeFileReader = function(filePath)
 FileMgr.prototype.reader_onloadstart = function(filePath,result)
 {
 	this.fileReaders[filePath].onloadstart(result);
-}
+};
 
 FileMgr.prototype.reader_onprogress = function(filePath,result)
 {
 	this.fileReaders[filePath].onprogress(result);
-}
+};
 
 FileMgr.prototype.reader_onload = function(filePath,result)
 {
 	this.fileReaders[filePath].result = unescape(result);
 	this.fileReaders[filePath].onload(this.fileReaders[filePath].result);
-}
+};
 
 FileMgr.prototype.reader_onerror = function(filePath,err)
 {
 	this.fileReaders[filePath].result = err;
 	this.fileReaders[filePath].onerror(err);
-}
+};
 
 FileMgr.prototype.reader_onloadend = function(filePath,result)
 {
 	this.fileReaders[filePath].onloadend(result);
-}
+};
 
 /*******************************************
  *
@@ -97,24 +97,24 @@ FileMgr.prototype.reader_onloadend = function(filePath,result)
 FileMgr.prototype.writer_onerror = function(filePath,err)
 {
 	this.fileWriters[filePath].onerror(err);
-}
+};
 
 FileMgr.prototype.writer_oncomplete = function(filePath,result)
 {
 	this.fileWriters[filePath].oncomplete(result); // result contains bytes written
-}
+};
 
 
 FileMgr.prototype.getFileBasePaths = function()
 {
 	//PhoneGap.exec("File.getFileBasePaths");
-}
+};
 
 FileMgr.prototype.testFileExists = function(fileName, successCallback, errorCallback)
 {
 	var test = FileUtil.testFileExists(fileName);
 	test ? successCallback() : errorCallback();
-}
+};
 
 FileMgr.prototype.testDirectoryExists = function(dirName, successCallback, errorCallback)
 {
@@ -122,7 +122,7 @@ FileMgr.prototype.testDirectoryExists = function(dirName, successCallback, error
 	this.errorCallback = errorCallback;
 	var test = FileUtil.testDirectoryExists(dirName);
 	test ? successCallback() : errorCallback();
-}
+};
 
 FileMgr.prototype.createDirectory = function(dirName, successCallback, errorCallback)
 {
@@ -130,7 +130,7 @@ FileMgr.prototype.createDirectory = function(dirName, successCallback, errorCall
 	this.errorCallback = errorCallback;
 	var test = FileUtils.createDirectory(dirName);
 	test ? successCallback() : errorCallback();
-}
+};
 
 FileMgr.prototype.deleteDirectory = function(dirName, successCallback, errorCallback)
 {
@@ -138,7 +138,7 @@ FileMgr.prototype.deleteDirectory = function(dirName, successCallback, errorCall
 	this.errorCallback = errorCallback;
 	var test = FileUtils.deleteDirectory(dirName);
 	test ? successCallback() : errorCallback();
-}
+};
 
 FileMgr.prototype.deleteFile = function(fileName, successCallback, errorCallback)
 {
@@ -146,7 +146,7 @@ FileMgr.prototype.deleteFile = function(fileName, successCallback, errorCallback
 	this.errorCallback = errorCallback;
 	FileUtils.deleteFile(fileName);
 	test ? successCallback() : errorCallback();
-}
+};
 
 FileMgr.prototype.getFreeDiskSpace = function(successCallback, errorCallback)
 {
@@ -161,7 +161,7 @@ FileMgr.prototype.getFreeDiskSpace = function(successCallback, errorCallback)
 		this.freeDiskSpace = FileUtils.getFreeDiskSpace();
   		(this.freeDiskSpace > 0) ? successCallback() : errorCallback();
 	}
-}
+};
 
 
 // File Reader
@@ -182,7 +182,7 @@ function FileReader()
 FileReader.prototype.abort = function()
 {
 	// Not Implemented
-}
+};
 
 FileReader.prototype.readAsText = function(file)
 {
@@ -194,7 +194,7 @@ FileReader.prototype.readAsText = function(file)
 	navigator.fileMgr.addFileReader(this.fileName,this);
 
   	return FileUtil.read(this.fileName);
-}
+};
 
 // File Writer
 
@@ -223,4 +223,4 @@ FileWriter.prototype.writeAsText = function(file,text,bAppend)
 	this.readyState = 0; // EMPTY
   	var call = FileUtil.write(file, text, bAppend);
 	this.result = null;
-}
+};

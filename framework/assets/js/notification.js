@@ -63,7 +63,7 @@ PhoneGap.addConstructor(function() {
 Notification.prototype.vibrate = function(mills)
 {
   DroidGap.vibrate(mills);
-}
+};
 
 /*
  * On the Android, we don't beep, we notify you with your 
@@ -74,4 +74,4 @@ Notification.prototype.vibrate = function(mills)
 Notification.prototype.beep = function(count, volume)
 {
   DroidGap.beep(count);
-}
+};
