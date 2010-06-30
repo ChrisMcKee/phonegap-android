@@ -1,29 +1,8 @@
 package com.phonegap;
 
-/* License (MIT)
- * Copyright (c) 2008 Nitobi
- * website: http://phonegap.com
- * Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- * Software), to deal in the Software without restriction, including
- * without limitation the rights to use, copy, modify, merge, publish,
- * distribute, sublicense, and/or sell copies of the Software, and to
- * permit persons to whom the Software is furnished to do so, subject to
- * the following conditions:
- *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
- * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
- * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
- * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
 import java.io.File;
+
+import com.phonegap.MyLocation.LocationResult;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -74,6 +53,10 @@ public class DroidGap extends Activity {
 	private CryptoHandler crypto;
 	private BrowserKey mKey;
 	private AudioHandler audio;
+	
+	//EXPERIMENTAL
+	private MyLocation myLocation = new MyLocation();
+	private Location logRes = null;
 
 	// MYGPS Implementation // [cm]
 	private static String PROVIDER = "gps";// [cm]
@@ -148,6 +131,16 @@ public class DroidGap extends Activity {
 
 		setContentView(root);
 	}
+	
+	/* Experimental */	
+	public LocationResult locationResult = new LocationResult(){
+	    @Override
+	    public void gotLocation(final Location location){
+	        logRes = location;
+        };
+    };
+    /* end Experimental */
+   
 
 	@Override  // [cm]
 	public void onResume() {
@@ -194,18 +187,61 @@ public class DroidGap extends Activity {
 		appView.addJavascriptInterface(crypto, "GapCrypto");
 		appView.addJavascriptInterface(mKey, "BackButton");
 		appView.addJavascriptInterface(audio, "GapAudio");
+		
+		//Experimental
+		appView.addJavascriptInterface(new ExLocater(), "exlocater");
+			myLocation.getLocation(this, locationResult);
+		//
 
 		// Set Location Manager [cm]
 		myLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		// Create Custom GPS Handler so we can depreciate the other [cm]
 		appView.addJavascriptInterface(new Locater(), "locater");
+		
+		
 
 		if (android.os.Build.VERSION.RELEASE.startsWith("1.")) {
 			cupcakeStorage = new Storage(appView);
 			appView.addJavascriptInterface(cupcakeStorage, "droidStorage");
 		}
 	}
+	
+	/* EXPERIMENTAL #logRes*/
+	//Access this using loc.getLatitude() and loc.getLongitude() [cm]
+	public class ExLocater {
+		public double getLatitude() {
+			//Location loc = myLocationManager.getLastKnownLocation(PROVIDER);
+			
+			if (logRes == null) {
+				return (0);
+			}
 
+			return (logRes.getLatitude());
+		}
+		
+//		public double getAccuracy()
+//		{
+//			if(logRes == null)
+//			{
+//				return(0);
+//			}
+//			
+//			return (logRes.getAccuracy());
+//		}
+
+		public double getLongitude() {
+			//Location loc = myLocationManager.getLastKnownLocation(PROVIDER);
+
+			if (logRes == null) {
+				return (0);
+			}
+			
+			return (logRes.getLongitude());
+		}
+	}
+	
+	/* EXPERIMENTAL */
+	 
 	public void loadUrl(String url) {
 		appView.loadUrl(url);
 	}
