@@ -3,7 +3,7 @@
 <head>
 <meta name="viewport" content="width=320; user-scalable=no" />
 <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-<title>PhoneGap</title>
+<title>PhoneGap - Modified</title>
 <link rel="stylesheet" href="master.css" type="text/css" media="screen"
 	charset="utf-8">
 <script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
@@ -118,10 +118,16 @@
 	}
 
 	function myLocation(lat, lon) {
-		document.getElementById("lat").innerHTML=lat;
-		document.getElementById("lon").innerHTML=lon;
+		document.getElementById("latx").innerHTML = lat;
+		document.getElementById("lonx").innerHTML = lon;
 
 		//alert("Lat:" + lat + ", Lon: "+ lon);
+	}
+
+	function geoVersion(){ 
+		try{
+		alert(locater.getGeoVersion());
+		}catch(e){ alert(e); } 
 	}
 
 	
@@ -129,7 +135,7 @@
   </script>
 </head>
 <body onload="init();" id="stage" class="theme">
-<h1>Welcome to PhoneGap!</h1>
+<h1>Welcome to PhoneGap Modified!</h1>
 <h2>this file is located at assets/index.html</h2>
 <div id="info">
 <h4>Platform: <span id="platform">&nbsp;</span></h4>
@@ -144,21 +150,45 @@
 	<dt>Z:</dt>
 	<dd id="z">&nbsp;</dd>
 </dl>
-<p>[NEW GeoTest] You are at: <br />
-<span id="lat">(unknown)</span> latitude and <br />
-<span id="lon">(unknown)</span> longitude.</p>
-<span>This will update continuously when you have a GPS lock; clicking the below link will cause either the current location (in the case of a lock) or previous location to appear above.</span>
+<div
+	style="border: solid #fff 1px; background: #fff; font-size: 1.1em; color: #000;">
+<span>Experimental</span> <span id="latx">(unknown)</span> latitude and
+<br />
+<span id="lonx">(unknown)</span> longitude.
+</p>
 <p><a
-	onClick="myLocation(locater.getLatitude(), locater.getLongitude())">
-Update Location</a></p>
-<a href="#" class="btn large" onclick="watchAccel();">Watch
+	onclick=
+	myLocation(locater.getLatitude(), locater.getLongitude());
+class="btn small"> Update Location</a></p>
+<p><a
+	onclick=
+	locater.forceUpdate();
+	myLocation(locater.getLatitude(), locater.getLongitude());
+class="btn small"> Force Update Location</a></p>
+<p><a onclick=
+	geoVersion();
+class="btn small"> Get GEO Version</a></p>
+</div>
+<a href="#" class="btn large" onclick=
+	watchAccel();;
+>Watch
 Accelerometer</a>
-<a href="#" class="btn large" onclick="getLocation();">Get Location</a>
+<a href="#" class="btn large" onclick=
+	getLocation();;
+>Get Location</a>
 <a href="tel://411" class="btn large">Call 411</a>
-<a href="#" class="btn large" onclick="beep();">Beep</a>
-<a href="#" class="btn large" onclick="vibrate();">Vibrate</a>
-<a href="#" class="btn large" onclick="show_pic();">Get a Picture</a>
-<a href="#" class="btn large" onclick="get_contacts();">Get phone's
+<a href="#" class="btn large" onclick=
+	beep();;
+>Beep</a>
+<a href="#" class="btn large" onclick=
+	vibrate();;
+>Vibrate</a>
+<a href="#" class="btn large" onclick=
+	show_pic();;
+>Get a Picture</a>
+<a href="#" class="btn large" onclick=
+	get_contacts();;
+>Get phone's
 contacts</a>
 <div id="viewport" class="viewport" style="display: none;"><img
 	style="width: 60px; height: 60px" id="test_img" src="" /></div>

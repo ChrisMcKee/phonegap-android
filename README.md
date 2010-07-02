@@ -3,12 +3,26 @@ PhoneGap/Android - _Modified_
 [cm] Changes ---------------
 <pre>
 * New GPS handler added; Old one left in (in case they fix it).
-* On GPS Location Change myLocation(lat,lng) is called (example in example/index.html)
-* Two new functions locator.getLatitude() locator.getLongitude() get last known location
-
-
+* Licence is in Licence.java as it was getting on my wick (also at the bottom of this file)
+* Depreciated PhoneGap GEO handler; screw it.
+* New functions 
+** CM-GEO (locator.*) stored in MyLocation.java
+** On starting the application the class will try to get GPS or Network location based on interval of 60seconds/100meters (you can change this)
+** locator.getLatitude() locator.getLongitude() get last known location
+** locator.forceUpdate() - clears the stored lat/lng response and re-requests it (then use above to collect)
+** locator.setDistanceInterval(100)  - default is 100 meters
+** locator.setTimeInterval(60000)  - default is 60seconds (60000ms) 
+** locator.stopUpdates() - stops auto-update of location
+** locator.resumeUpdates() - resumes auto-update
+** locator.getGeoVersion() - Version of my additional class (used mostly so I can ensure my own app has updated to the latest JAR file)
+* Corrected missing semicolons on functions in javascript files.
+* Added some more demo/tests to index.html
 ** Depreciated: PhoneGap GEO as it doesnt currently work. 
 ** If they fix it, this fork becomes useless(ish)
+
+TODO: still need to add tests for setD/setT/stopU/resumeU
+
+-- New MyLocation.java and DroidGap changes by Chris McKee <pcdevils@gmail.com> --
 </pre>
 -----------------------------
 
@@ -57,3 +71,29 @@ For more info see
 -----------------
 - [http://docs.phonegap.com](http://docs.phonegap.com)
 - [http://wiki.phonegap.com](http://wiki.phonegap.com)
+
+Licence
+-------
+
+	/* License (MIT)
+	 * Copyright (c) 2008 Nitobi
+	 * website: http://phonegap.com
+	 * Permission is hereby granted, free of charge, to any person obtaining
+	 * a copy of this software and associated documentation files (the
+	 * Software), to deal in the Software without restriction, including
+	 * without limitation the rights to use, copy, modify, merge, publish,
+	 * distribute, sublicense, and/or sell copies of the Software, and to
+	 * permit persons to whom the Software is furnished to do so, subject to
+	 * the following conditions:
+	 *
+	 * The above copyright notice and this permission notice shall be
+	 * included in all copies or substantial portions of the Software.
+	 * 
+	 * THE SOFTWARE IS PROVIDED AS IS, WITHOUT WARRANTY OF ANY KIND,
+	 * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+	 * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+	 * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+	 * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+	 * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+	 * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+	 */
